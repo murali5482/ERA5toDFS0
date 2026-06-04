@@ -1,0 +1,287 @@
+# ERA5 TimeSeries Viewer - Build Instructions for Developers
+
+## Quick Reference Card
+
+Save this file - it has everything you need to build the standalone executable.
+
+## System Requirements
+
+Before starting, ensure you have:
+- Windows 10 or later (64-bit)
+- Python 3.9 or later installed
+- At least 5GB free disk space
+- Internet connection
+
+## Step-by-Step Build Instructions
+
+### STEP 1: Prepare Environment (5 minutes)
+
+Open Command Prompt and run:
+
+```batch
+REM Navigate to the ERA5 folder
+cd C:\Users\[YourUsername]\Documents\GitHub\ERA5
+
+REM Create virtual environment
+python -m venv build_env
+
+REM Activate virtual environment
+build_env\Scripts\activate
+
+REM You should see (build_env) at start of command line
+```
+
+### STEP 2: Install Dependencies (3 minutes)
+
+```batch
+REM Install PyInstaller and all dependencies
+pip install --upgrade pip
+pip install -r requirements_build.txt
+
+REM This downloads and installs all needed packages (~1.5GB)
+REM May take 2-5 minutes depending on internet speed
+```
+
+### STEP 3: Build Executable (10 minutes)
+
+```batch
+REM Build the standalone executable
+pyinstaller era5_build.spec
+
+REM Wait for completion... you should see:
+REM "successfully created dist/ERA5_TimeSeries_Viewer.exe"
+```
+
+### STEP 4: Verify Build (5 minutes)
+
+```batch
+REM Test the executable
+dist\ERA5_TimeSeries_Viewer.exe
+
+REM The application window should open
+REM Close the application to verify it works
+```
+
+### STEP 5: Create Installer (5 minutes, OPTIONAL)
+
+To create a professional Windows installer:
+
+**5a. Install NSIS**
+- Download from: https://nsis.sourceforge.io/
+- Run the installer
+- Accept default options
+
+**5b. Build installer**
+```batch
+"C:\Program Files (x86)\NSIS\makensis.exe" era5_installer.nsi
+
+REM Creates: ERA5_TimeSeries_Viewer_Setup.exe
+```
+
+## Result
+
+After successful build, you have:
+
+```
+dist\
+├── ERA5_TimeSeries_Viewer.exe          ← Main executable (350+ MB)
+├── ERA5_TimeSeries_Viewer\
+│   ├── (all libraries and dependencies)
+└── (supporting files)
+```
+
+**File size:** 350-400 MB (this is normal with bundled Python)
+
+## Distribution Package
+
+### Package Option A: Simple ZIP
+
+```batch
+REM Create distribution folder
+mkdir ERA5_TimeSeries_Viewer_v1.0
+
+REM Copy main executable and folder
+copy dist\ERA5_TimeSeries_Viewer.exe ERA5_TimeSeries_Viewer_v1.0\
+xcopy dist\ERA5_TimeSeries_Viewer ERA5_TimeSeries_Viewer_v1.0\ERA5_TimeSeries_Viewer /I /E
+
+REM Copy documentation
+copy README.md ERA5_TimeSeries_Viewer_v1.0\
+copy QUICK_START.txt ERA5_TimeSeries_Viewer_v1.0\
+copy LICENSE.txt ERA5_TimeSeries_Viewer_v1.0\
+copy Run_ERA5_Viewer.bat ERA5_TimeSeries_Viewer_v1.0\
+
+REM Create ZIP (right-click folder → Send to → Compressed)
+REM Or use: 7z a -r ERA5_TimeSeries_Viewer_v1.0.zip ERA5_TimeSeries_Viewer_v1.0\*
+```
+
+**Result:** `ERA5_TimeSeries_Viewer_v1.0.zip` (~350-400 MB)
+
+### Package Option B: Windows Installer
+
+```batch
+REM Already created in Step 5
+REM Result: ERA5_TimeSeries_Viewer_Setup.exe (~350-400 MB)
+```
+
+## Testing on Clean Machine
+
+Before distribution, test on a machine without Python:
+
+1. Copy `dist\ERA5_TimeSeries_Viewer.exe` to USB drive
+2. Boot fresh Windows VM (or another computer)
+3. Run the executable
+4. Verify all functions work:
+   - Load files
+   - Plot data
+   - Export CSV
+   - Export DFS0
+   - Close application
+
+## Troubleshooting Build
+
+### Problem: "pyinstaller not found"
+**Solution:** Ensure you activated virtual environment (Step 1)
+```batch
+build_env\Scripts\activate
+```
+
+### Problem: "No module named tkinter"
+**Solution:** This is included with Python, but ensure it's installed
+```batch
+python -m pip install tk
+```
+
+### Problem: Build takes forever
+**Solution:** This is normal - PyInstaller bundles everything (~1-2 hours first time)
+- Go get a coffee ☕
+- Let it complete
+
+### Problem: Executable is 1GB+
+**Solution:** This is normal with PyInstaller bundled Python
+- Includes full Python runtime + all libraries
+- Can't be reduced significantly without code optimization
+
+### Problem: "Access denied" error
+**Solution:** Run Command Prompt as Administrator
+- Right-click cmd.exe
+- Select "Run as administrator"
+
+### Problem: Build says "completed" but I don't see exe
+**Solution:** Check the `dist/` folder
+```batch
+dir dist\
+REM Should show ERA5_TimeSeries_Viewer.exe
+```
+
+## Version Updates
+
+For each new version:
+
+1. Update code in `era5_timeseries_gui.py`
+2. Update `README.md` with new features
+3. Run PyInstaller again:
+   ```batch
+   pyinstaller era5_build.spec
+   ```
+4. Re-create installer if needed
+5. Version naming: v1.0, v1.1, v2.0, etc.
+
+## File Locations Summary
+
+```
+C:\Users\[YourUsername]\Documents\GitHub\
+├── ERA5\
+│   ├── era5_timeseries_gui.py          ← Source code
+│   ├── era5_build.spec                 ← Build config
+│   ├── era5_installer.nsi              ← Installer config
+│   ├── README.md                       ← User manual
+│   ├── BUILD.md                        ← Build guide
+│   ├── QUICK_START.txt                 ← Quick reference
+│   ├── DEPLOYMENT.md                   ← Deployment guide
+│   ├── PACKAGING.md                    ← Packaging guide
+│   ├── requirements_build.txt           ← Build dependencies
+│   ├── LICENSE.txt                     ← License
+│   ├── Run_ERA5_Viewer.bat             ← Launcher
+│   ├── build_env\                      ← Virtual environment
+│   ├── build\                          ← Build artifacts
+│   └── dist\                           ← OUTPUT: executable here
+│       ├── ERA5_TimeSeries_Viewer.exe
+│       └── ERA5_TimeSeries_Viewer\
+└── .venv\                              ← Alternative venv location
+```
+
+## Complete Build Script (Copy-Paste Ready)
+
+Save as `build_all.bat` in ERA5 folder:
+
+```batch
+@echo off
+echo Building ERA5 TimeSeries Viewer...
+echo.
+
+cd /d "%~dp0"
+
+echo Step 1: Creating virtual environment...
+python -m venv build_env
+call build_env\Scripts\activate.bat
+
+echo Step 2: Installing dependencies...
+pip install --upgrade pip
+pip install -r requirements_build.txt
+
+echo Step 3: Building executable...
+pyinstaller era5_build.spec
+
+echo Step 4: Creating installer...
+"C:\Program Files (x86)\NSIS\makensis.exe" era5_installer.nsi
+
+echo.
+echo ===== BUILD COMPLETE =====
+echo Executable: dist\ERA5_TimeSeries_Viewer.exe
+echo Installer:  ERA5_TimeSeries_Viewer_Setup.exe
+echo.
+pause
+```
+
+Run with: `build_all.bat`
+
+## Support
+
+If you encounter issues:
+1. Check Python version: `python --version` (need 3.9+)
+2. Check PyInstaller: `pyinstaller --version`
+3. Review build output for error messages
+4. See BUILD.md for detailed troubleshooting
+5. Check PyInstaller docs: https://pyinstaller.org/
+
+## What's Next?
+
+- **Distribute:** See PACKAGING.md
+- **Deploy:** See DEPLOYMENT.md
+- **Support Users:** Share README.md with end users
+
+## Important Notes
+
+⚠️ **Do not modify:**
+- `era5_build.spec` (unless you know what you're doing)
+- Virtual environment folder
+- Build output folder
+
+✓ **Safe to delete after building:**
+- `build/` folder
+- `*.spec` file (backup first)
+- Virtual environment (if not needed again)
+
+✓ **Safe to redistribute:**
+- `dist/ERA5_TimeSeries_Viewer.exe`
+- `ERA5_TimeSeries_Viewer_Setup.exe`
+- All `.md` and `.txt` documentation files
+
+---
+
+**Build Time:** 10-30 minutes (first time)
+**Rebuild Time:** 10-15 minutes (subsequent)
+**Disk Space Needed:** 5-10 GB temporary (during build)
+**Final Package Size:** 350-400 MB
+
+**Good luck! You're creating a professional standalone application.** 🚀

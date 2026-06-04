@@ -1,0 +1,72 @@
+================================================================================
+ERA5 TIME SERIES VIEWER - QUICK START GUIDE
+================================================================================
+
+1. RUN THE PROGRAM
+   - Double-click: ERA5_TimeSeries_Viewer.exe
+   - Wait ~5 seconds for the application window to open
+
+2. LOAD YOUR DATA
+   - Click "Select atmospheric file" → Choose your atmospheric .nc file
+   - Click "Select oceanic file" → Choose your oceanic .nc file
+   - You should see file paths appear on screen
+
+3. SELECT DATA TO VIEW
+   - Choose source: Atmospheric or Oceanic (radio buttons)
+   - Pick a variable from the dropdown menu
+   - Click "Plot time series"
+   - A graph will appear below
+
+4. ZOOM INTO TIME RANGE (Optional)
+   - Click and drag on the graph to zoom into specific dates
+   - Use the Start/End sliders below the graph to select a range
+   - The statistics will update automatically
+
+5. SAVE YOUR DATA
+   - Use the sliders to select your time range
+   - Click "Save data"
+   - Choose format:
+     ✓ CSV = Excel spreadsheet format (recommended for most users)
+     ✓ DFS0 = MIKE water modeling format
+   - Pick where to save the file
+   - Done!
+
+6. AVAILABLE VARIABLES
+
+   Atmospheric (if loaded):
+   - u10, v10 (automatically converted to Wind speed & Wind direction)
+   - msl (Air pressure)
+   - tp (Precipitation rate)
+
+   Oceanic (if loaded):
+   - swh (Significant wave height)
+   - mwp (Wave period)
+   - mwd (Wave direction)
+
+7. UNITS IN SAVED FILES
+   - Air pressure: Pa (Pascals)
+   - Precipitation: mm/hr
+   - Velocity/Wind: m/s (meters per second)
+   - Wave height: m (meters)
+   - Wave period: s (seconds)
+   - Direction: ° (degrees)
+
+8. COMMON PROBLEMS
+
+   Q: Application won't start
+   A: Try right-click → Run as Administrator
+
+   Q: "No data" error
+   A: Make sure you selected BOTH a data source AND a variable
+
+   Q: Plot is blank
+   A: Check that time range sliders are set correctly
+
+   Q: Can't find data to download
+   A: Visit: https://cds.climate.copernicus.eu
+      Search: "ERA5 single levels timeseries" or "ERA5 wave"
+
+================================================================================
+For more details, see: README.md
+For developers: BUILD.md
+================================================================================
