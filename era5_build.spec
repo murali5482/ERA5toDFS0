@@ -1,13 +1,27 @@
 # PyInstaller spec file for ERA5 TimeSeries GUI
 # Build with: pyinstaller era5_build.spec
+#
+# mikeio/mikecore need their package metadata, Python modules, data files,
+# and native DHI DLLs available in the extracted PyInstaller runtime.
+from PyInstaller.utils.hooks import collect_all
 
 block_cipher = None
 
+datas = []
+binaries = []
+hiddenimports = []
+
+for package_name in ('mikeio', 'mikecore'):
+    package_datas, package_binaries, package_hiddenimports = collect_all(package_name)
+    datas += package_datas
+    binaries += package_binaries
+    hiddenimports += package_hiddenimports
+
 a = Analysis(
     ['era5_timeseries_gui.py'],
-    pathex=[],
-    binaries=[],
-    datas=[],
+    pathex=[r'C:\Users\surisemk\Documents\GitHub\ERA5\build_env\Lib\site-packages'],
+    binaries=binaries,
+    datas=datas,
     hiddenimports=[
         'tkinter',
         'xarray',
@@ -16,8 +30,7 @@ a = Analysis(
         'matplotlib',
         'matplotlib.backends.backend_tkagg',
         'netCDF4',
-        'mikeio',
-    ],
+    ] + hiddenimports,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

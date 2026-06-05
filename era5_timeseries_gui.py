@@ -359,13 +359,11 @@ class ERA5TimeSeriesApp:
                 self.save_dataframe_to_csv(path, df)
                 messagebox.showinfo('Saved', f'Data saved to {path}')
             elif path.lower().endswith('.dfs0'):
-                try:
-                    import mikeio
-                except Exception:
-                    messagebox.showerror('DFS0 save error', 'Saving to .dfs0 requires the mikeio package. Install with: pip install mikeio')
+                mikeio = self.load_mikeio_for_dfs0()
+                if mikeio is None:
                     return
                 try:
-                    variable_items = self.get_mike_item_info(df.columns)
+                    variable_items = self.get_mike_item_info(df.columns, mikeio)
                     ds_out = mikeio.from_pandas(df, items=variable_items)
                     ds_out.to_dfs(path)
                     messagebox.showinfo('Saved', f'Data saved to {path}')
@@ -395,6 +393,27 @@ class ERA5TimeSeriesApp:
                     writer.writerow([index_value] + list(row.values))
         except Exception as exc:
             messagebox.showerror('CSV save error', f'Could not write CSV file:\n{exc}')
+
+    def load_mikeio_for_dfs0(self):
+        try:
+            import mikeio
+            return mikeio
+        except ModuleNotFoundError as exc:
+            if exc.name == 'mikeio':
+                message = 'Saving to .dfs0 requires the mikeio package. Install with: pip install mikeio'
+            else:
+                message = (
+                    'The mikeio package is installed, but one of its dependencies '
+                    f'could not be loaded:\n{exc.name}\n\n{exc}'
+                )
+        except Exception as exc:
+            message = (
+                'The mikeio package is installed, but it could not be initialized:\n'
+                f'{type(exc).__name__}: {exc}'
+            )
+
+        messagebox.showerror('DFS0 save error', message)
+        return None
 
     def get_current_save_time_range(self, df):
         if self.full_series is None or len(df) == 0:
@@ -485,12 +504,7 @@ class ERA5TimeSeriesApp:
         display_name = self.get_display_name(var_name)
         return unit_mapping.get(display_name, '')
 
-    def get_mike_item_info(self, columns):
-        try:
-            import mikeio
-        except Exception:
-            return None
-
+    def get_mike_item_info(self, columns, mikeio):
         mapping = {
             'Significant wave height': (mikeio.EUMType.Significant_wave_height, mikeio.EUMUnit.meter),
             'Wave period': (mikeio.EUMType.Wave_period, mikeio.EUMUnit.second),
