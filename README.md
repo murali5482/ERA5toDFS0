@@ -26,7 +26,8 @@ ERA5 Time Series Viewer is a standalone desktop application for loading, visuali
 ## Getting Started
 
 ### Step 1: Load Data Files
-1. Download ERA5 NetCDF files from [Copernicus CDS](https://cds.climate.copernicus.eu)
+1. Download ERA5 NetCDF files from [Copernicus CDS](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=download)
+   - The site downloads a compressed file which includes 2 files for Atmospheric and Ocean data separately in .nc format.
    - Atmospheric data: Search for "ERA5 single levels timeseries"
    - Oceanic data: Search for "ERA5 sea surface wave timeseries"
 2. Click **"Select atmospheric file"** to load atmospheric NetCDF (.nc) file
