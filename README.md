@@ -33,7 +33,7 @@ ERA5 Time Series Viewer is a standalone desktop application for loading, visuali
 3. Click **Save settings** if you want to store the API settings for future sessions.
 4. Enter latitude/longitude manually, or click the OpenStreetMap-based map to choose a point. Use **+**, **-**, mouse wheel, **Center**, and **World** to navigate; maximum zoom reaches a local view of about 3 degrees.
 5. Select the date range, variables, and download folder.
-6. Click **Request and download**. The application waits for CDS to prepare the request, downloads the NetCDF result, extracts any ZIP result, and loads the data.
+6. Click **Request and download**. The application waits for CDS to prepare the request, downloads the NetCDF result, extracts any ZIP result, and loads the atmospheric and ocean `.nc` files.
 
 **Option B: Load existing NetCDF files**
 1. Click **"Select atmospheric file"** to load atmospheric NetCDF (.nc) file.
