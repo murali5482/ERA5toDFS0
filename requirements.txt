@@ -4,3 +4,5 @@ pandas
 matplotlib
 netcdf4
 mikeio
+cdsapi>=0.7.7
+truststore>=0.10.4

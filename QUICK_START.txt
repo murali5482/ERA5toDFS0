@@ -6,24 +6,35 @@ ERA5 TIME SERIES VIEWER - QUICK START GUIDE
    - Double-click: ERA5_TimeSeries_Viewer.exe
    - Wait ~5 seconds for the application window to open
 
-2. LOAD YOUR DATA
+2. DOWNLOAD OR LOAD YOUR DATA
+   Option A - Download from Copernicus CDS:
+   - Accept the ERA5 hourly time-series dataset terms on the CDS website
+   - Enter CDS API URL and API key / personal access token
+   - Click "Save settings" if you want to reuse the key later
+   - Enter latitude/longitude or click the map
+   - Use +, -, mouse wheel, Center, and World to navigate the map
+   - Select dates, variables, and download folder
+   - Click "Request and download"
+
+   Option B - Load existing files:
    - Click "Select atmospheric file" → Choose your atmospheric .nc file
    - Click "Select oceanic file" → Choose your oceanic .nc file
    - You should see file paths appear on screen
 
 3. SELECT DATA TO VIEW
+   - Open the "Data analysis" tab
    - Choose source: Atmospheric or Oceanic (radio buttons)
    - Pick a variable from the dropdown menu
    - Click "Plot time series"
    - A graph will appear below
 
 4. ZOOM INTO TIME RANGE (Optional)
-   - Click and drag on the graph to zoom into specific dates
-   - Use the Start/End sliders below the graph to select a range
-   - The statistics will update automatically
+   - Use Start Date and End Date at the top of the Data analysis tab
+   - Click "Apply dates" to refresh the current plot/statistics
+   - Click and drag on the graph to zoom into the visible period
 
 5. SAVE YOUR DATA
-   - Use the sliders to select your time range
+   - Use Start Date and End Date to select your time range
    - Click "Save data"
    - Choose format:
      ✓ CSV = Excel spreadsheet format (recommended for most users)
@@ -31,7 +42,13 @@ ERA5 TIME SERIES VIEWER - QUICK START GUIDE
    - Pick where to save the file
    - Done!
 
-6. AVAILABLE VARIABLES
+6. DIRECTIONAL ANALYSIS
+   - Click "Wave Rose" for wave height vs wave direction roses
+   - Click "Wind Rose" for wind speed vs wind direction roses
+   - Representative-year rankings are saved as CSV files
+   - Click "Directional Data" to create 16 directional DFS0 files
+
+7. AVAILABLE VARIABLES
 
    Atmospheric (if loaded):
    - u10, v10 (automatically converted to Wind speed & Wind direction)
@@ -43,7 +60,7 @@ ERA5 TIME SERIES VIEWER - QUICK START GUIDE
    - mwp (Wave period)
    - mwd (Wave direction)
 
-7. UNITS IN SAVED FILES
+8. UNITS IN SAVED FILES
    - Air pressure: Pa (Pascals)
    - Precipitation: mm/hr
    - Velocity/Wind: m/s (meters per second)
@@ -51,7 +68,7 @@ ERA5 TIME SERIES VIEWER - QUICK START GUIDE
    - Wave period: s (seconds)
    - Direction: ° (degrees)
 
-8. COMMON PROBLEMS
+9. COMMON PROBLEMS
 
    Q: Application won't start
    A: Try right-click → Run as Administrator
@@ -60,11 +77,11 @@ ERA5 TIME SERIES VIEWER - QUICK START GUIDE
    A: Make sure you selected BOTH a data source AND a variable
 
    Q: Plot is blank
-   A: Check that time range sliders are set correctly
+   A: Check that Start Date and End Date are inside the loaded data range
 
-   Q: Can't find data to download
-   A: Visit: https://cds.climate.copernicus.eu
-      Search: "ERA5 single levels timeseries" or "ERA5 wave"
+   Q: CDS download fails
+   A: Check your API key / personal access token, accept the dataset terms on
+      the CDS website, and try a smaller date range or fewer variables.
 
 ================================================================================
 For more details, see: README.md

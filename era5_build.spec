@@ -11,7 +11,7 @@ datas = []
 binaries = []
 hiddenimports = []
 
-for package_name in ('mikeio', 'mikecore'):
+for package_name in ('mikeio', 'mikecore', 'cdsapi', 'ecmwf.datastores', 'multiurl', 'requests', 'truststore'):
     package_datas, package_binaries, package_hiddenimports = collect_all(package_name)
     datas += package_datas
     binaries += package_binaries
@@ -19,7 +19,7 @@ for package_name in ('mikeio', 'mikecore'):
 
 a = Analysis(
     ['era5_timeseries_gui.py'],
-    pathex=[r'C:\Users\surisemk\Documents\GitHub\ERA5\build_env\Lib\site-packages'],
+    pathex=[r'C:\Users\surisemk\Documents\GitHub\ERA5\ERA5toDFS0\build_env\Lib\site-packages'],
     binaries=binaries,
     datas=datas,
     hiddenimports=[
@@ -30,6 +30,13 @@ a = Analysis(
         'matplotlib',
         'matplotlib.backends.backend_tkagg',
         'netCDF4',
+        'cdsapi',
+        'ecmwf.datastores',
+        'multiurl',
+        'requests',
+        'truststore',
+        'truststore._api',
+        'truststore._windows',
     ] + hiddenimports,
     hookspath=[],
     hooksconfig={},
